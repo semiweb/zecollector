@@ -1,4 +1,3 @@
-require 'digest'
 require 'date'
 require 'httparty'
 
@@ -11,7 +10,6 @@ class Collector
     def setup
       yield self
       base_uri uri
-      self.authorization_key = Digest::SHA2.hexdigest("#{application}--#{Date.today}")
       options = {
         state: {
           ref:           `cd #{path} && git rev-parse HEAD`.strip,
@@ -21,7 +19,7 @@ class Collector
         },
         application:       { name: application },
         installation:      { name: installation, location: location, env: env },
-        authorization_key: authorization_key
+        authorization_key: ENV['ARMA_AUTHORIZATION_KEY']
       }
       post('/', body: options)
     end
