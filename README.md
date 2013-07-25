@@ -2,6 +2,7 @@ The Collector
 ====================
 
 The collector collects data related to the app's git repo current state upon application start and sends it using a POST request to any uri of your choice.
+The collector has been designed to work best with [ARMA](https://github.com/semiweb/arma).
 
 ## Installation
 
