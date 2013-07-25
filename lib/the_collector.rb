@@ -5,7 +5,7 @@ class Collector
   include HTTParty
 
   class << self
-    attr_accessor :application, :installation, :location, :env, :git_path, :uri, :authorization_key
+    attr_accessor :application, :installation, :location, :env, :git_path, :uri, :github_repo, :authorization_key
 
     def setup
       yield self
