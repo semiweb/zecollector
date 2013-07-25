@@ -15,7 +15,8 @@ class Collector
           ref:           `cd #{path} && git rev-parse HEAD`.strip,
           branch:        `cd #{path} && git rev-parse --abbrev-ref HEAD`.strip,
           local_changes: !`cd #{path} && git status -s`.strip.empty?,
-          diff:          `cd #{path} && git diff`
+          diff:          `cd #{path} && git diff`,
+          github_repo:   github_repo
         },
         application:       { name: application },
         installation:      { name: installation, location: location, env: env },
