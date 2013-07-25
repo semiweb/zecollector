@@ -16,12 +16,12 @@ Create an initializer like so:
 ```ruby
 thread = Thread.new do
   Collector.setup do |config|
-    config.application  = 'App Name'
-    config.installation = 'Installation Name'
-    config.location     = 'Installation Location'
-    config.env          = 'Environment'
-    config.github_repo  = 'Github Repo Name'
-    config.uri          = 'http://[url]'
+    config.application       = 'App Name'
+    config.installation      = 'Installation Name'
+    config.location          = 'Installation Location'
+    config.env               = 'Environment'
+    config.github_repo       = 'Github Repo Name'
+    config.uri               = 'http://[url]'
     config.authorization_key = 'betchaCantFindThis'
   end
 end
@@ -29,7 +29,7 @@ end
 thread.join
 ```
 
-`uri`: replace [url] with the place where you want to post this data to.
+`uri`: replace [url] with the place where you want to post this data to. 
 `authorization_key`: by setting an authorization key to be sent with the data you can check the authenticity of the request in your other application.
 
 And you're done ; )
