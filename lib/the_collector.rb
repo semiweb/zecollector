@@ -19,7 +19,7 @@ class Collector
         },
         application:       { name: application },
         installation:      { name: installation, location: location, env: env },
-        authorization_key: ENV['ARMA_AUTHORIZATION_KEY']
+        authorization_key: ENV['COLLECTOR_AUTHORIZATION_KEY']
       }
       post('/', body: options)
     end
