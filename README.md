@@ -55,10 +55,17 @@ Here is the data structure of what will be sent:
 ```
 
 `ref`: last commit sha that is also present on remote (`origin`)
+
 `local_commits`: the number of commits after this one that are not on remote
+
 `branch`: the current git branch
+
 `local_changes`: local modifications that have not been committed yet (true or false)
+
 `diff`: result of the `git diff` command (there will be something only if `local_changes` is true)
+
 `github_repo`: name of your applications's github repository
+
 `application`: name contains the name of your app
+
 `installation`: we consider that an application can be installed at different places (multiple clients) hence these fields
