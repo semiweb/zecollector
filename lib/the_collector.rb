@@ -33,9 +33,9 @@ class Collector
     def remote_lookup
       i, found = 0, false
       until found do
-        ref =          `cd #{path} && git rev-parse HEAD~#{i}`.strip
+        ref          = `cd #{path} && git rev-parse HEAD~#{i}`.strip
         check_remote = `cd #{path} && git branch -r --contains #{ref}`.strip
-        found =        check_remote.include? 'origin'
+        found        = check_remote.include? 'origin'
         i += 1
       end
       { ref: ref, local_commits: i-1 }

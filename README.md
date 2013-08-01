@@ -35,3 +35,30 @@ thread.join
 `authorization_key`: by setting an authorization key to be sent with the data you can check the authenticity of the request in your other application.
 
 And you're done ; )
+
+Here is the data structure of what will be sent:
+
+```ruby
+{
+  state: {
+    ref:           ref,
+    local_commits: number,
+    branch:        branch,
+    local_changes: bool,
+    diff:          diff,
+    github_repo:   name
+  },
+  application:       { name: application },
+  installation:      { name: installation, location: location, env: env },
+  authorization_key: authorization_key
+}
+```
+
+`ref`: last commit sha that is also present on remote (`origin`)
+`local_commits`: the number of commits after this one that are not on remote
+`branch`: the current git branch
+`local_changes`: local modifications that have not been committed yet (true or false)
+`diff`: result of the `git diff` command (there will be something only if `local_changes` is true)
+`github_repo`: name of your applications's github repository
+`application`: name contains the name of your app
+`installation`: we consider that an application can be installed at different places (multiple clients) hence these fields
