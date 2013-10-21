@@ -15,19 +15,17 @@ gem 'the_collector', :git => "https://github.com/semiweb/the_collector.git"
 Create an initializer like so:
 
 ```ruby
-thread = Thread.new do
-  Collector.setup do |config|
-    config.application       = 'App Name'
-    config.installation      = 'Installation Name'
-    config.location          = 'Installation Location'
-    config.env               = 'Environment'
-    config.github_repo       = 'Github Repo Name'
-    config.uri               = 'http://[url]'
-    config.authorization_key = 'betchaCantFindThis'
+Collector.setup do |config|
+  config.application       = 'App Name'
+  config.installation      = 'Installation Name'
+  config.location          = 'Installation Location'
+  config.uri               = 'http://[url]'
+  config.authorization_key = 'betchaCantFindThis'
+
+  config.on_exception do |exception|
+    log_exception(exception)
   end
 end
-
-thread.join
 ```
 
 `uri`: replace [url] with the place where you want to post this data to. 
@@ -44,12 +42,11 @@ Here is the data structure of what will be sent:
     ref:           ref,
     local_commits: number,
     branch:        branch,
-    local_changes: bool,
     diff:          diff,
     github_repo:   name
   },
   application:       { name: application },
-  installation:      { name: installation, location: location, env: env },
+  installation:      { name: installation, location: location, env: Rails.env },
   authorization_key: authorization_key
 }
 ```
@@ -60,9 +57,7 @@ Here is the data structure of what will be sent:
 
 `branch`: the current git branch
 
-`local_changes`: local modifications that have not been committed yet (true or false)
-
-`diff`: result of the `git diff` command (there will be something only if `local_changes` is true)
+`diff`: result of the `git diff` command
 
 `github_repo`: name of your applications's github repository
 
