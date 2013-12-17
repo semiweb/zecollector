@@ -1,13 +1,13 @@
-The Collector
+ZeCollector
 ====================
 
-The collector collects data related to the app's git repo current state upon application start and sends it using a POST request to any uri of your choice.
-The collector has been designed to work best with [ARMA](https://github.com/semiweb/arma).
+ZeCollector collects data related to the app's git repo current state upon application start and sends it using a POST request to any uri of your choice.
+ZeCollector has been designed to work best with [ARMA](https://github.com/semiweb/arma).
 
 ## Installation
 
 ```ruby
-gem 'the_collector', :git => "https://github.com/semiweb/the_collector.git"
+gem 'zecollector', :git => "https://github.com/semiweb/zecollector.git"
 ```
 
 ## Usage
