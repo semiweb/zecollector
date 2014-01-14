@@ -12,11 +12,16 @@ class Collector
         yield _self
         _self.base_uri uri
         begin
+          raise 'Missing authorization key' unless authorization_key
           _self.post('/', body: options)
         rescue Exception => e
           _self.exception_callback.call(e)
         end
       end
+    end
+
+    def setup!
+      setup unless defined?(Rails::Console) || File.basename($0) == 'rake'
     end
 
     def options
