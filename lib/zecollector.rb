@@ -7,7 +7,7 @@ class Collector
   class << self
     attr_accessor :application, :installation, :location, :uri, :authorization_key, :exception_callback
 
-    def setup
+    def setup!(&block)
       Thread.new(self) do |_self|
         yield _self
         _self.base_uri uri
@@ -20,8 +20,8 @@ class Collector
       end
     end
 
-    def setup!
-      setup unless defined?(Rails::Console) || File.basename($0) == 'rake'
+    def setup(&block)
+      setup!(&block) unless defined?(Rails::Console) || File.basename($0) == 'rake'
     end
 
     def options
