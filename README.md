@@ -27,6 +27,10 @@ Collector.setup do |config|
   end
 end
 ```
+Calling `setup` will make sure no data is sent if the initializer is loaded with a Rails console or a rake task. If you want always want to send data, use `setup!`
+instead.
+
+`log_exception` will be a custom method of yours that's being called upon exception raising by ZeCollector.
 
 `uri`: replace [url] with the place where you want to post this data to. 
 
@@ -40,6 +44,7 @@ Here is the data structure of what will be sent:
 {
   state: {
     ref:           ref,
+    message        message,
     local_commits: number,
     branch:        branch,
     diff:          diff,
@@ -52,6 +57,8 @@ Here is the data structure of what will be sent:
 ```
 
 `ref`: last commit sha that is also present on remote (`origin`)
+
+`message`: last commit message that is also present on remote (`origin`)
 
 `local_commits`: the number of commits after this one that are not on remote
 

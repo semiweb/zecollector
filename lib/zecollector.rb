@@ -14,7 +14,7 @@ class Collector
         begin
           raise 'Missing authorization key' unless authorization_key
           _self.post('/', body: options)
-        rescue Exception => e
+        rescue => e
           _self.exception_callback.call(e)
         end
       end
@@ -29,6 +29,7 @@ class Collector
       {
         state: {
           ref:           lookup[:ref],
+          message:       lookup[:message],
           local_commits: lookup[:local_commits],
           branch:        `git rev-parse --abbrev-ref HEAD`.strip,
           diff:          `git diff`,
@@ -44,11 +45,12 @@ class Collector
       i, found = 0, false
       until found do
         ref          = `git rev-parse HEAD~#{i}`.strip
+        message      = `git log -1 --pretty=%B`.strip
         check_remote = `git branch -r --contains #{ref}`.strip
         found        = check_remote.include? 'origin'
         i += 1
       end
-      { ref: ref, local_commits: i-1 }
+      { ref: ref, message: message, local_commits: i-1 }
     end
 
     def on_exception(&block)
