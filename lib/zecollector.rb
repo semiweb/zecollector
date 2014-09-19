@@ -26,7 +26,7 @@ class Collector
 
     def options
       lookup = remote_lookup
-      {
+      obj = {
         state: {
           ref:           lookup[:ref],
           message:       lookup[:message],
@@ -39,6 +39,13 @@ class Collector
         installation:      { name: installation, location: location, env: Rails.env },
         authorization_key: authorization_key
       }
+
+      if defined?(CodeChangelog)
+        code_changelog = CodeChangelog::ClientCodeChangelog.new
+        obj[:code_changelogs] = code_changelog.get_and_commit
+      end
+
+      obj
     end
 
     def remote_lookup
