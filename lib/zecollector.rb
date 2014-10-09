@@ -5,7 +5,7 @@ class Collector
   include HTTParty
 
   class << self
-    attr_accessor :application, :installation, :location, :uri, :authorization_key, :exception_callback
+    attr_accessor :application, :installation, :location, :uri, :authorization_key, :exception_callback, :code_changelog
 
     def setup!(&block)
       Thread.new(self) do |_self|
@@ -13,7 +13,23 @@ class Collector
         _self.base_uri uri
         begin
           raise 'Missing authorization key' unless authorization_key
-          _self.post('/', body: options)
+          error_message = nil
+          [0, 5, 15, 60].each do |seconds|
+            sleep seconds
+            begin
+              error_message = nil
+              response = _self.post('/', body: options)
+            rescue => e
+              error_message = e.to_s
+            else
+              break if response.code == 200
+              error_message = "Error #{response.code}: #{response.message}"
+            end
+          end
+          raise("Unable to send data to arma:\n#{error_message}") if error_message.present?
+          if defined?(CodeChangelog)
+            _self.code_changelog.commit()
+          end
         rescue => e
           _self.exception_callback.call(e)
         end
@@ -41,8 +57,8 @@ class Collector
       }
 
       if defined?(CodeChangelog)
-        code_changelog = CodeChangelog::ClientCodeChangelog.new
-        obj[:code_changelogs] = code_changelog.get_and_commit
+        self.code_changelog = CodeChangelog::ClientCodeChangelog.new
+        obj[:code_changelogs] = code_changelog.changelogs_diff
       end
 
       obj
