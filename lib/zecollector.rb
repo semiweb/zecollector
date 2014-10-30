@@ -20,6 +20,8 @@ class Collector
               error_message = nil
               response = _self.post('/', body: options)
             rescue => e
+              # so we need to catch the exception here to loop again and retry in 5, 15 or 60 seconds
+              # otherwise a post related timeout exception would be rescued by the parent block and no retry happens
               error_message = e.to_s
             else
               break if response.code == 200
@@ -27,9 +29,7 @@ class Collector
             end
           end
           raise("Unable to send data to arma:\n#{error_message}") if error_message.present?
-          if defined?(CodeChangelog)
-            _self.code_changelog.commit()
-          end
+          _self.code_changelog.commit if defined?(CodeChangelog)
         rescue => e
           _self.exception_callback.call(e)
         end
