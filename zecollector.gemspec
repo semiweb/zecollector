@@ -7,5 +7,5 @@ Gem::Specification.new do |s|
   s.authors     = ["Semiweb"]
   s.email       = []
   s.files       = ["lib/zecollector.rb"]
-  s.add_dependency "httparty", "~> 0.11.0"
+  s.add_dependency "httparty"
 end
